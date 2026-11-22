@@ -63,3 +63,33 @@ SELECT * FROM dbo.Aluno WHERE email = 'MARINA@EXEMPLO.COM';
 
 EXEC dbo.PrepararQuestao 8;
 --
+UPDATE dbo.Pagamento 
+SET situacao = 'Pago', 
+data_pagamento = '2026-11-20'
+WHERE id_pagamento = 9002;
+
+DELETE FROM dbo.Pagamento WHERE id_pagamento = 9007;
+
+-- verificando:
+SELECT * FROM DBO.Pagamento
+
+EXEC dbo.PrepararQuestao 9;
+
+CREATE TABLE dbo.Monitoria (
+    id_monitoria INT NOT NULL,
+    id_turma INT NOT NULL,
+    codigo VARCHAR(20) NOT NULL,
+    horas INT NOT NULL,
+    data_inicio DATE NOT NULL,
+    situacao VARCHAR(20) NOT NULL
+        CONSTRAINT DF_situacao DEFAULT ('Planejada'),
+    CONSTRAINT PK_id_monitoria PRIMARY KEY (id_monitoria),
+    CONSTRAINT FK_idTurma FOREIGN KEY (id_turma) REFERENCES dbo.Turma(id_turma),
+    CONSTRAINT UQ_codigo UNIQUE (codigo),
+    CONSTRAINT CK_horas CHECK (horas >= 1)
+);
+
+INSERT INTO dbo.Monitoria (id_monitoria, id_turma, codigo, horas, data_inicio)
+VALUES (1, 10, 'MON-001', 8,'2026-11-21')
+
+SELECT * FROM dbo.Monitoria
